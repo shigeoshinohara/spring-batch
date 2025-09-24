@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>spring-boot-pmd-example</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <properties>
+    <java.version>17</java.version>
+    <!-- PMD 7.14 を指定 -->
+    <pmd.version>7.14.0</pmd.version>
+    <!-- maven-pmd-plugin は PMD バージョン指定をサポートする比較的新しいバージョンを指定 -->
+    <maven-pmd-plugin.version>3.24.0</maven-pmd-plugin.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${maven-pmd-plugin.version}</version>
+        <configuration>
+          <!-- 使用する PMD のバージョンを指定 -->
+          <pmdVersion>${pmd.version}</pmdVersion>
+
+          <!-- カスタム ruleset の指定（プロジェクト直下の config/pmd/custom_rules.xml を参照） -->
+          <rulesets>
+            <ruleset>${basedir}/config/pmd/custom_rules.xml</ruleset>
+          </rulesets>
+
+          <!-- ルール違反でビルドを失敗させたい場合は true -->
+          <failOnViolation>false</failOnViolation>
+
+          <!-- site レポートの生成に使うフォーマット等（必要なら追加設定） -->
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>run-pmd</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>pmd</goal>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- mvn site で HTML レポートを生成したい場合 -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${maven-pmd-plugin.version}</version>
+        <configuration>
+          <pmdVersion>${pmd.version}</pmdVersion>
+          <rulesets>
+            <ruleset>${basedir}/config/pmd/custom_rules.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>
