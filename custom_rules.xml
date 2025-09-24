@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Project Custom PMD Rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
+                             http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+
+  <description>
+    Project-specific PMD rules: built-in ルールの取り込みと簡単なカスタム XPath ルールの例
+  </description>
+
+  <!-- Built-in のルールセットや単一ルールを取り込む例 -->
+  <!-- quickstart（複数の基本ルールがまとまったもの）を取り込む -->
+  <rule ref="rulesets/java/quickstart.xml"/>
+
+  <!-- 個別ルールを参照することも可能 -->
+  <!-- 例: 既定のカテゴリから特定のルールだけを有効化 -->
+  <rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals"/>
+  <rule ref="category/java/bestpractices.xml/UseStringBufferForStringAppends"/>
+
+  <!-- カスタム XPath ルール（例: 単純なサンプル） -->
+  <!-- 実際には XPath はプロジェクトに合わせて調整してください -->
+  <rule name="NoSystemOutPrintln"
+        message="System.out.println is not allowed; use a logger"
+        class="net.sourceforge.pmd.lang.rule.XPathRule">
+    <description>Avoid using System.out.println in code; use SLF4J logger instead.</description>
+    <priority>3</priority>
+    <properties>
+      <property name="version" value="2.0"/>
+      <property name="xpath">
+        <value>
+          //PrimaryExpression
+            [./PrimaryPrefix/Name
+              [matches(@Image, '^System\\.out\\.(println|print)$')]]
+        </value>
+      </property>
+    </properties>
+  </rule>
+
+</ruleset>
