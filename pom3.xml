@@ -1,0 +1,24 @@
+<!-- pom.xml に以下の plugin を追加してください（build/plugins 内に配置） -->
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-antrun-plugin</artifactId>
+  <version>3.1.0</version>
+  <executions>
+    <execution>
+      <id>generate-pmd-total</id>
+      <!-- post-site にすることで pmd の site レポート生成後に実行 -->
+      <phase>post-site</phase>
+      <goals><goal>run</goal></goals>
+      <configuration>
+        <tasks>
+          <!-- 出力先のサイトディレクトリを作る -->
+          <mkdir dir="${project.reporting.outputDirectory}"/>
+          <!-- XSLT 変換: site が出力した pmd.xml を pmd-total.html に変換 -->
+          <xslt in="${project.reporting.outputDirectory}/pmd.xml"
+                style="${basedir}/config/pmd/pmd-total.xsl"
+                out="${project.reporting.outputDirectory}/pmd-total.html"/>
+        </tasks>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
