@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+  <body>
+    <menu name="Project">
+      <item name="PMD Report" href="pmd.html"/>
+      <item name="PMD Total" href="pmd-total.html"/>
+    </menu>
+  </body>
+</site>
